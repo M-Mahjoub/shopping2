@@ -1,16 +1,27 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Ordering.Application;
 using Ordering.Infrastructure;
 using Ordering.Presentation;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+var presentationAssembly = typeof(Ordering.Presentation.AssemblyReference).Assembly;
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddControllers()
+           .AddApplicationPart(presentationAssembly);
+
 builder.Services
     .AddApplication()
     .AddInfrastructure()
-    .AddPresentation();
+.AddPresentation();
+
+builder.Services.AddDbContext<ApplicationDbContext>(context =>
+        context.UseNpgsql(builder.Configuration.GetConnectionString("Application")));
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 
 builder.Host.UseSerilog((context, configuration) =>
     configuration.ReadFrom.Configuration(context.Configuration));

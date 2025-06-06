@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ordering.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,6 @@ namespace Ordering.Domain.Abstractions
 {
     public interface IOrderRepository
     {
+        void Insert(Order order);
     }
 }
