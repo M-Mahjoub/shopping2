@@ -13,11 +13,8 @@ builder.Services.AddControllers()
 
 builder.Services
     .AddApplication()
-    .AddInfrastructure()
+    .AddInfrastructure(builder.Configuration)
     .AddPresentation();
-
-builder.Services.AddDbContext<ApplicationDbContext>(context =>
-        context.UseNpgsql(builder.Configuration.GetConnectionString("OrderingConnectionString")));
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
